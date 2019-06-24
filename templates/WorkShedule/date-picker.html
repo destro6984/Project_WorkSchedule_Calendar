@@ -1,0 +1,24 @@
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.11.0/themes/smoothness/jquery-ui.css">
+<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+<script src="http://code.jquery.com/ui/1.11.0/jquery-ui.js"></script>
+<script>
+    $(document).ready(function () {
+        $('.datepicker').datepicker({
+            firstDay: 1,
+            dateFormat: 'yy-mm-dd',
+            changeMonth: true,
+            changeYear: true,
+
+        });
+    });
+</script>
+
+
+
+{#              constrainInput: true,   // prevent letters in the input field#}
+{#            minDate: new Date(),    // prevent selection of date older than today#}
+{#            showOn: 'button',       // Show a button next to the text-field#}
+{#            autoSize: true,         // automatically resize the input field #}
+{#            altFormat: 'yy-mm-dd',  // Date Format used#}
+{#            beforeShowDay: $.datepicker.noWeekends,     // Disable selection of weekends#}
+{#            firstDay: 1 // Start with Monday#}

@@ -1,0 +1,81 @@
+{% extends 'WorkShedule/base.html' %}
+{% load static %}
+{% block description %}
+    <h1 class="display-5 text-center">Calendar</h1>
+{% endblock %}
+{% block content %}
+    <script>
+        $(document).ready(function () {
+            $('.datepicker').datepicker();
+        });
+    </script>
+    <div class="container-fluid">
+        <div class="row ml-5 mb-1">
+            {% url 'calendar' month_number=prev_month as prev_month_url %}
+            {% url 'calendar' month_number=next_month as next_month_url %}
+            <div class="col-2">
+                <a class="btn btn-info left" href="{{ prev_month_url }}"> prev </a>
+            </div>
+            <div class="col-2">
+                <a class="btn btn-info left" href="/calendar/{% now "n" %}"> obecny miesiac </a>
+            </div>
+            <div class="col-2">
+                <a class="btn btn-info right" href="{{ next_month_url }}"> next_month </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid">
+        <div class="row ml-2">
+
+            <form method="POST">
+                {% csrf_token %}
+
+                {{ call|safe }}
+                </table>
+                {{ form }}
+
+                <input type="submit" value={{ submit }}>
+
+            </form>
+            {#tabela dla jedego pracownia#}
+            <table class="col-2" border="1px">
+                <th colspan="4" class="text-center">{{ worker }}</th>
+                {% for emploee in work_day %}
+                    <tr>
+                        <td>{{ emploee.date_day }}</td>
+                        <td>{{ emploee.time_start }}</td>
+                        <td>{{ emploee.time_end }}</td>
+                        <td><a href="{% url 'delete_day' pk=emploee.pk %}">Usuń</a></td>
+                    </tr>
+
+                {% endfor %}
+            </table>
+
+            {#tabel dla wszystkich pracowników#}
+            <table border="1px" class="col-2 ml-1">
+                <th colspan="4" class="text-center">Crew</th>
+                {% for emploee in all_staff %}
+                    <tr>
+                        <td>{{ emploee.employee }} </td>
+                        <td>{{ emploee.time_start }}</td>
+                        <td>{{ emploee.time_end }}</td>
+                        <td>{{ emploee.date_day }}</td>
+                    </tr>
+                    <tr>
+
+                    </tr>
+
+                {% endfor %}
+            </table>
+        </div>
+        <div>
+            <p>Id Usera: {{ request.user.id }} username:{{ request.user.username }}</p>
+        </div>
+
+    </div>
+
+
+
+    {{ x }}
+{% endblock %}

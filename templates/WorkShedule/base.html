@@ -1,0 +1,106 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="{% static 'WorkSchedule/css/styles.css' %}" type="text/css">
+    <script src="{% static 'WorkSchedule/js/app.js' %}"></script>
+
+
+    <title>Our Time Sweet WorkCalendar</title>
+
+</head>
+<body>
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+{% include 'WorkShedule/navbar.html' %}
+
+<!-- Jquery Datapicker-->
+{% include 'WorkShedule/date-picker.html' %}
+
+
+<div>
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+</div>
+
+
+
+{% block description %}
+{% endblock %}
+
+
+{% block content %}
+
+
+    {% now "n" as current_month %}
+
+    <a class="btn btn-outline-info mb-4" href="{% url 'calendar' month_number=current_month %}"> Przejdz do obecnego miesiąca </a>
+
+    <div class="container">
+        <div>
+    <a class="btn btn-outline-info mb-4" href="{% url 'calendar' month_number=1 %}"> Styczeń </a>
+    <a class="btn btn-outline-info mb-4" href="{% url 'calendar' month_number=2 %}"> Luty </a>
+    <a class="btn btn-outline-info mb-4" href="{% url 'calendar' month_number=3 %}"> Marzec </a>
+    <a class="btn btn-outline-info mb-4" href="{% url 'calendar' month_number=4 %}"> Kwiecień </a>
+    <a class="btn btn-outline-info mb-4" href="{% url 'calendar' month_number=5 %}"> Maj </a>
+    <a class="btn btn-outline-info mb-4" href="{% url 'calendar' month_number=6 %}"> Czerwiec </a>
+    <a class="btn btn-outline-info mb-4" href="{% url 'calendar' month_number=7 %}"> Lipiec</a>
+    <a class="btn btn-outline-info mb-4" href="{% url 'calendar' month_number=8 %}"> Sierpień </a>
+    <a class="btn btn-outline-info mb-4" href="{% url 'calendar' month_number=9 %}"> Wrzesień </a>
+    <a class="btn btn-outline-info mb-4" href="{% url 'calendar' month_number=10 %}"> Październik </a>
+    <a class="btn btn-outline-info mb-4" href="{% url 'calendar' month_number=11 %}"> Listopad </a>
+    <a class="btn btn-outline-info mb-4" href="{% url 'calendar' month_number=12 %}"> Grudzień </a>
+        </div>
+    </div>
+
+
+
+
+{% endblock %}
+{% block footer %}
+    <nav class="navbar fixed-bottom navbar-light bg-light">
+      <a class="navbar-brand" href="#">WorkShedule</a>
+        <h3>
+            wersja : {{ version.0 }}.{{ version.1 }}
+        </h3>
+        <h3>
+            {{ time }}
+
+        </h3>
+        {{ request.user }}
+        {% if not request.user.is_authenticated %}
+            <a class="btn btn-outline-info mb-4" href="{% url 'login' %}"> Zaloguj się !</a>
+        {% endif %}
+    </nav>
+{% endblock %}
+
+
+
+
+</body>
+</html>

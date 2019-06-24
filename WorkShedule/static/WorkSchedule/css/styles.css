@@ -1,0 +1,28 @@
+body {
+    background-color: whitesmoke;
+}
+
+
+.top-right {
+    float: right;
+    top: 8px;
+    right: 16px;
+    margin-right: auto;
+    display: inline-block;
+    padding-right: 30px;
+    position: absolute;
+    top: 30px;
+    right: 0px;
+}
+
+.top-right-left {
+    float: right;
+    top: 8px;
+    right: 16px;
+    margin-right: auto;
+    display: inline-block;
+    padding-right: 30px;
+    position: absolute;
+    top: 30px;
+    right: 500px;
+}

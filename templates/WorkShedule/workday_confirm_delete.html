@@ -1,0 +1,15 @@
+{% extends 'WorkShedule/base.html' %}
+{% block description %}
+    <h1 class="display-5 text-center">Usuń</h1>
+{% endblock %}
+
+{% block content %}
+<form method="post">{% csrf_token %}
+    {% now "n" as current_month %}
+    <p>Na Pewno chcesz usunąć dzień: "{{ object.date_day }}"?</p>
+
+    {% url 'calendar' month_number=object.date_day.month as the_url %}
+
+    <input type="submit" value="Potwierdź">  <button><a href="{{the_url}}">Cancel</a></button>
+</form>
+ {% endblock %}
