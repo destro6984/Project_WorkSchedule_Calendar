@@ -4,12 +4,15 @@
 {% endblock %}
 
 {% block content %}
-<form method="post">{% csrf_token %}
-    {% now "n" as current_month %}
-    <p>Na Pewno chcesz usunąć dzień: "{{ object.date_day }}"?</p>
+<form method="POST">{% csrf_token %}
 
-    {% url 'calendar' month_number=object.date_day.month as the_url %}
+    <p>Na Pewno chcesz usunąć dzień:</p>
+    {% for day in  list_day_to_delete%}
+        <p>"{{ day.date_day}}"</p>
+    {% endfor %}
 
-    <input type="submit" value="Potwierdź">  <button><a href="{{the_url}}">Cancel</a></button>
+
+
+    <input class="btn btn-info right" type="submit" value="Potwierdź">  <a class="btn btn-info right" href="{% url 'calendar' month_number=month_number %}">Cancel</a>
 </form>
  {% endblock %}

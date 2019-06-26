@@ -1,32 +1,28 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="{% url 'start' %}">Home</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
-            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav ">
-            <li class="nav-item active">
-                {% now "n" as current_month %}
-                <a class="nav-link" href="{% url 'calendar' month_number=current_month %}">Actual Calendar <span
-                        class="sr-only">(current)</span></a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">About</a>
-            </li>
-            <li class="nav-item ">
 
-            </li>
-        </ul>
-    </div>
-    <div class="collapse navbar-collapse ml-auto" id="navbarNavRight">
-        <ul class="navbar-nav ">
-            <li class="nav-item">
-                <a class="nav-link ml-auto" href="{% url 'login' %}">Login</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link ml-auto" href="{% url 'logout' %}">Logout</a>
-            </li>
-        </ul>
+
+<nav class="navbar navbar-expand-md navbar-dark bg-secondary ">
+    <div class="container">
+        <a class="navbar-brand mr-auto" href="{% url 'start' %}">WorkSchedule</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle"
+                aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarToggle">
+            <div class="navbar-nav mr-auto">
+                {% now "n" as current_month %}
+                <a class="nav-item nav-link" href="{% url 'calendar' month_number=current_month %}">Current month</a>
+                <a class="nav-item nav-link" href="">About</a>
+            </div>
+            <!-- Navbar Right Side -->
+            <div class="navbar-nav">
+                {% if user.is_authenticated %}    {# is.authenticaed czy jest zalogowany wbudowana w django #}
+                    <a class="nav-item nav-link" href="{% url 'logout' %}">Logout</a>
+                    <a class="nav-item nav-link" href="">{{ request.user }}</a>
+                {% else %}
+                    <a class="nav-item nav-link" href="{% url 'login' %}">Login</a>
+                    <a class="nav-item nav-link" href="">Register</a>
+                {% endif %}
+            </div>
+        </div>
     </div>
 </nav>

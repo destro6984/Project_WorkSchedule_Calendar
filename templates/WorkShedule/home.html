@@ -4,7 +4,9 @@
 <h1>Calendar</h1>
 
 <div id="calendar">
-  {{html_cal|safe}}
+{% for wor in all_staff %}
+  {{wor}}
+{% endfor %}
 </div>
 
 {% endblock %}

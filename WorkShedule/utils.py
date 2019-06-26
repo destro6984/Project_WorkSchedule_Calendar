@@ -73,13 +73,13 @@ class Calendar(HTMLCalendar):
         employee_that_day = workday.filter(date_day__day=day)
         d = ''
         for worker in employee_that_day:
-            d += f'<li> {worker.employee}<br>{worker.time_start}-{worker.time_end}<br> </li>'
+            d += f'<p class=""> {worker.employee}:{worker.time_start}-{worker.time_end}<br> </p>'
 
         if day != 0:
-            return f"<td width='100'' height='90' ><span class='date'>{day}</span><ul>{d}</ul></td>"
+            return f"<td width='100'' height='90'><span class='date mb-10'>{day}</span><p>{d}</p></td>"
         return '<td></td>'
 
-    # formats a week as a tr
+    # formats a week as a t
     def formatweek(self, theweek, workday):
         week = ''
         for d, weekday in theweek:

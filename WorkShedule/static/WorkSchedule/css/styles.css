@@ -26,3 +26,106 @@ body {
     top: 30px;
     right: 500px;
 }
+
+
+
+.fit {
+    white-space: nowrap;
+    width: 1%;
+}
+
+.calendar td {
+    min-width: 110px;
+    word-wrap: break-word;
+
+}
+
+
+
+.calendar tr, .calendar td {
+  border: 1px solid black;
+}
+
+.calendar th {
+  text-align: center;
+  font-size: 15px;
+}
+
+.calendar td {
+  min-width: 120px;
+  height: 100px;
+  max-height: 100px;
+    word-wrap: break-word;
+  padding: 0px 0px 0px 5px;
+}
+
+.month {
+  font-size: 18px;
+}
+
+.date {
+  font-size: 14px;
+}
+
+
+
+a {
+  color: #17a2b8;
+}
+
+p {
+    font-size:15px;
+    word-wrap: break-word
+}
+
+
+/*do drop_alertów*/
+
+
+.dropdown-alerts{
+    position: absolute;
+    top: 50%;
+    left:50%;
+    transform: translate(-50%,-50%)
+
+}
+
+.alert_button{
+    position: relative;
+    width:100px;
+    height:50px;
+    font-size:16px;
+    background: #17a2b8;
+    border: none;
+    box-shadow: none;
+    outline: none;
+    cursor: pointer;
+    color: whitesmoke;
+}
+
+
+.dropdown-ul{
+    position: absolute;
+    margin: 0;
+    padding: 0;
+    transform-origin: top;
+    transition: 0.5s;
+    transform: perspective(1000px) rotateX(-90deg);
+
+}
+.dropdown-ul.active{
+    transform: perspective(1000px) rotateX(0deg);
+}
+
+.dropdown-ul li{
+    list-style: none;
+}
+.dropdown-ul li a{
+    display:block;
+    text-align: center;
+    text-decoration: none;
+    background: aqua;
+    border-bottom: 1px solid;
+
+
+}

@@ -7,6 +7,12 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
+               <!-- Jquery-->
+    <script
+			  src="https://code.jquery.com/jquery-3.4.1.slim.js"
+			  integrity="sha256-BTlTdQO9/fascB1drekrDVkaKd9PkwBymMlHOiG+qLI="
+			  crossorigin="anonymous"></script>
+
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
@@ -18,12 +24,14 @@
 
     <title>Our Time Sweet WorkCalendar</title>
 
+{% include 'WorkShedule/navbar.html' %}
+
 </head>
 <body>
 
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
         crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
@@ -32,7 +40,7 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
         crossorigin="anonymous"></script>
-{% include 'WorkShedule/navbar.html' %}
+
 
 <!-- Jquery Datapicker-->
 {% include 'WorkShedule/date-picker.html' %}
@@ -58,23 +66,28 @@
 
 
     {% now "n" as current_month %}
-
-    <a class="btn btn-outline-info mb-4" href="{% url 'calendar' month_number=current_month %}"> Przejdz do obecnego miesiąca </a>
-
+    <div class="container">
+        <div class="row">
+            <div class=" mx-auto my-5">
+                <a class="btn btn-outline-info" href="{% url 'calendar' month_number=current_month %}"> Przejdz do
+                    obecnego miesiąca </a>
+            </div>
+        </div>
+    </div>
     <div class="container">
         <div>
-    <a class="btn btn-outline-info mb-4" href="{% url 'calendar' month_number=1 %}"> Styczeń </a>
-    <a class="btn btn-outline-info mb-4" href="{% url 'calendar' month_number=2 %}"> Luty </a>
-    <a class="btn btn-outline-info mb-4" href="{% url 'calendar' month_number=3 %}"> Marzec </a>
-    <a class="btn btn-outline-info mb-4" href="{% url 'calendar' month_number=4 %}"> Kwiecień </a>
-    <a class="btn btn-outline-info mb-4" href="{% url 'calendar' month_number=5 %}"> Maj </a>
-    <a class="btn btn-outline-info mb-4" href="{% url 'calendar' month_number=6 %}"> Czerwiec </a>
-    <a class="btn btn-outline-info mb-4" href="{% url 'calendar' month_number=7 %}"> Lipiec</a>
-    <a class="btn btn-outline-info mb-4" href="{% url 'calendar' month_number=8 %}"> Sierpień </a>
-    <a class="btn btn-outline-info mb-4" href="{% url 'calendar' month_number=9 %}"> Wrzesień </a>
-    <a class="btn btn-outline-info mb-4" href="{% url 'calendar' month_number=10 %}"> Październik </a>
-    <a class="btn btn-outline-info mb-4" href="{% url 'calendar' month_number=11 %}"> Listopad </a>
-    <a class="btn btn-outline-info mb-4" href="{% url 'calendar' month_number=12 %}"> Grudzień </a>
+            <a class="btn btn-outline-info mb-4" href="{% url 'calendar' month_number=1 %}"> Styczeń </a>
+            <a class="btn btn-outline-info mb-4" href="{% url 'calendar' month_number=2 %}"> Luty </a>
+            <a class="btn btn-outline-info mb-4" href="{% url 'calendar' month_number=3 %}"> Marzec </a>
+            <a class="btn btn-outline-info mb-4" href="{% url 'calendar' month_number=4 %}"> Kwiecień </a>
+            <a class="btn btn-outline-info mb-4" href="{% url 'calendar' month_number=5 %}"> Maj </a>
+            <a class="btn btn-outline-info mb-4" href="{% url 'calendar' month_number=6 %}"> Czerwiec </a>
+            <a class="btn btn-outline-info mb-4" href="{% url 'calendar' month_number=7 %}"> Lipiec</a>
+            <a class="btn btn-outline-info mb-4" href="{% url 'calendar' month_number=8 %}"> Sierpień </a>
+            <a class="btn btn-outline-info mb-4" href="{% url 'calendar' month_number=9 %}"> Wrzesień </a>
+            <a class="btn btn-outline-info mb-4" href="{% url 'calendar' month_number=10 %}"> Październik </a>
+            <a class="btn btn-outline-info mb-4" href="{% url 'calendar' month_number=11 %}"> Listopad </a>
+            <a class="btn btn-outline-info mb-4" href="{% url 'calendar' month_number=12 %}"> Grudzień </a>
         </div>
     </div>
 
@@ -82,9 +95,10 @@
 
 
 {% endblock %}
+<p></p>
 {% block footer %}
-    <nav class="navbar fixed-bottom navbar-light bg-light">
-      <a class="navbar-brand" href="#">WorkShedule</a>
+    <nav class="navbar fixed-bottom navbar-light bg-secondary ">
+        <a class="navbar-brand" href="#">WorkShedule</a>
         <h3>
             wersja : {{ version.0 }}.{{ version.1 }}
         </h3>
@@ -98,9 +112,6 @@
         {% endif %}
     </nav>
 {% endblock %}
-
-
-
 
 </body>
 </html>

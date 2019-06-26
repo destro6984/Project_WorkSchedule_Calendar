@@ -26,7 +26,7 @@ urlpatterns = [
     url(r'^logout/$', Logout.as_view(), name='logout'),
     url(r'^home/$', TestView.as_view(), name='TestView'),
 
-    url(r'^delete_day/(?P<pk>\d+)$', DeleteDateDay.as_view(), name='delete_day'),
+    url(r'^delete_day/(?P<month_number>\d+)$', DeleteDateDay.as_view(), name='delete_day'),
 
 
 

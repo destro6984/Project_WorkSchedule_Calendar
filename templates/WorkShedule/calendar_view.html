@@ -4,15 +4,15 @@
     <h1 class="display-5 text-center">Calendar</h1>
 {% endblock %}
 {% block content %}
-    <script>
-        $(document).ready(function () {
-            $('.datepicker').datepicker();
-        });
-    </script>
-    <div class="container-fluid">
-        <div class="row ml-5 mb-1">
-            {% url 'calendar' month_number=prev_month as prev_month_url %}
-            {% url 'calendar' month_number=next_month as next_month_url %}
+    {% url 'calendar' month_number=prev_month as prev_month_url %}
+    {% url 'calendar' month_number=next_month as next_month_url %}
+
+    {#        przyciski next previous#}
+    <div class="container">
+
+        <div class="row mb-2">
+
+
             <div class="col-2">
                 <a class="btn btn-info left" href="{{ prev_month_url }}"> prev </a>
             </div>
@@ -21,61 +21,82 @@
             </div>
             <div class="col-2">
                 <a class="btn btn-info right" href="{{ next_month_url }}"> next_month </a>
+
             </div>
         </div>
     </div>
 
-    <div class="container-fluid">
-        <div class="row ml-2">
 
-            <form method="POST">
+    {#    formularz dodawani dni do grafiku #}
+
+    <div class="container-fluid">
+        <div class="row">
+
+            <form class="col-8" method="POST">
                 {% csrf_token %}
 
                 {{ call|safe }}
                 </table>
                 {{ form }}
+                <input class="btn btn-warning right" type="submit" value={{ submit }}>
 
-                <input type="submit" value={{ submit }}>
 
             </form>
-            {#tabela dla jedego pracownia#}
-            <table class="col-2" border="1px">
-                <th colspan="4" class="text-center">{{ worker }}</th>
-                {% for emploee in work_day %}
-                    <tr>
-                        <td>{{ emploee.date_day }}</td>
-                        <td>{{ emploee.time_start }}</td>
-                        <td>{{ emploee.time_end }}</td>
-                        <td><a href="{% url 'delete_day' pk=emploee.pk %}">Usuń</a></td>
-                    </tr>
+            {% if user.is_authenticated %}
+                {#schedule as table signel worker #}
 
+                <table class="col-2" border="1px">
+                    <form method="GET" action="{% url 'delete_day' month_number=month_number %}">
+                        {% csrf_token %}
+                        <th colspan="4" class="text-center">{{ worker }}</th>
+                        {% for emploee in work_day %}
+                            <tr>
+                                <td>{{ emploee.date_day }}</td>
+                                <td>{{ emploee.time_start }}</td>
+                                <td>{{ emploee.time_end }}</td>
+                                <td><input type="checkbox" name="{{ emploee.pk }}">Usuń</td>
+                            </tr>
+                        {% endfor %}
+                        <th class="text-center" colspan="4"><input class="btn btn-danger right" type="submit"
+                                                                   value="Usuń"></th>
+                    </form>
+                </table>
+                </div>
+
+
+
+                {#schedule as table of every worker#}
+                <table border="1px" class="col-2 ml-1">
+                    <th colspan="4" class="text-center">Crew</th>
+                    {% for emploee in all_staff %}
+                        <tr>
+                            <td>{{ emploee.employee }} </td>
+                            <td>{{ emploee.time_start }}</td>
+                            <td>{{ emploee.time_end }}</td>
+                            <td>{{ emploee.date_day }}</td>
+                        </tr>
+
+                    {% endfor %}
+                </table>
+            {% endif %}
+
+                {#    alerts abotu the schedule#}
+        <div class="col-2">
+            <button class="alert_button"> Click To See Alerts</button>
+            <ul class="dropdown-ul">
+                <a>Days with lesst Than 3 workers</a>
+                {% for day in not_enough_worker_list %}
+                    <li><a>{{ day.day }}/{{ day|date:'F' }} </a></li>
                 {% endfor %}
-            </table>
+            </ul>
 
-            {#tabel dla wszystkich pracowników#}
-            <table border="1px" class="col-2 ml-1">
-                <th colspan="4" class="text-center">Crew</th>
-                {% for emploee in all_staff %}
-                    <tr>
-                        <td>{{ emploee.employee }} </td>
-                        <td>{{ emploee.time_start }}</td>
-                        <td>{{ emploee.time_end }}</td>
-                        <td>{{ emploee.date_day }}</td>
-                    </tr>
-                    <tr>
-
-                    </tr>
-
-                {% endfor %}
-            </table>
-        </div>
-        <div>
-            <p>Id Usera: {{ request.user.id }} username:{{ request.user.username }}</p>
         </div>
 
     </div>
+    <div>
+        <p>Id Usera: {{ request.user.id }} username:{{ request.user.username }}</p>
+    </div>
 
-
-
-    {{ x }}
+{% endblock %}
+{% block footer %}
 {% endblock %}

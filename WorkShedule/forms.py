@@ -7,6 +7,7 @@ from django.forms.widgets import SelectDateWidget
 from bootstrap_datepicker_plus import DatePickerInput
 from functools import partial
 
+
 class LoginUserForm(forms.Form):
     login = forms.CharField()
     password = forms.CharField(widget=forms.PasswordInput)
@@ -37,11 +38,11 @@ class AddUserForm(forms.Form):
 
 
 class WorkDayForm(forms.Form):
-    date_day=forms.DateField(widget=forms.DateInput(attrs={'class': 'datepicker'}))
     time_start = forms.TimeField(widget=forms.TextInput(attrs={'placeholder': 'HH:MM'}))
     time_end = forms.TimeField(widget=forms.TextInput(attrs={'placeholder': 'HH:MM'}))
+    start_date = forms.DateField(widget=forms.DateInput(attrs={'class': 'datepicker'}))
+    end_date = forms.DateField(required=False, widget=forms.DateInput(attrs={'class': 'datepicker'}))
 
     # DateInput = partial(forms.DateInput, {'class': 'datetime-input'})
     # start_date = forms.DateField(widget=DateInput())
     # end_date = forms.DateField(widget=DateInput())
-

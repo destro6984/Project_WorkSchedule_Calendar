@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'WorkShedule',
     'bootstrap4',
+    'crispy_forms',
 
 
 ]
@@ -128,5 +129,6 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static")
 ]
 
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
 LOGIN_REDIRECT_URL = 'login'
 LOGIN_URL = 'login'

@@ -8,27 +8,12 @@ $(function () {
     });
 
 
+    $(".alert_button").on('click', function () {
+        $(".dropdown-ul").toggleClass('active')
 
-
+    });
 
 
 
 });
-
-// $(document).on('submit', "#timesheet",function(event){
-//     event.preventDefault();
-//
-//     $.ajax({
-//         method: "POST",
-//         url: 'add_schedule',
-//         data:{
-//             days:$('.workday').val(),
-//             user:$('#userId').val()
-//         },
-//         success:function() {
-//             alert("COs")
-//
-//         }
-//     });
-// })
 
