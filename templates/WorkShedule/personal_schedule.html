@@ -1,0 +1,123 @@
+{% extends 'WorkShedule/base.html' %}
+{% load static %}
+{% block description %}
+    {% load crispy_forms_tags %}
+    <h1 class="display-5 text-center">Calendar {{ request.user.username }}</h1>
+{% endblock %}
+{% block content %}
+    {% now "n" as current_month %}
+    {% now "Y" as current_year %}
+
+    {#        buttons next/previous/current#}
+    <div class="container-fluid ml-1">
+
+        <div class="container">
+            <div class="row mb-1">
+                <div class="col-4 mx-auto">
+                    <a class="btn btn-info " href="{% url 'personal_schedule' month_number=prev_month year=previous_year%}"> Previous </a>
+                </div>
+                <div class="col-4 mx-auto">
+                    <a class="btn btn-info " href="{% url 'personal_schedule' month_number=current_month year=current_year%}"> Current Month </a>
+                </div>
+                <div class="col-4 ml-auto">
+                    <a class="btn btn-info " href="{% url 'personal_schedule' month_number=next_month year=next_year%}"> Next </a>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+
+    {#    calendar #}
+    <div class="container-fluid">
+
+        <div class="container mb-1">
+            {{ calendar_for_user|safe }}
+            </table>
+        </div>
+        <div class="row"><!-- row for form and calandar!-->
+
+            <form class="col-4" method="POST">
+                {% csrf_token %}
+                {{ form|crispy }}
+                <input class="btn btn-warning right" type="submit" value={{ submit }}>
+
+            </form>
+
+            {#                Form adding customized default#}
+            <form class="col-3" method="POST" action="{% url 'add_default' month_number=month_number year=year %}">
+                {% csrf_token %}
+                <div class="radiobuttons">
+                    <ul>
+                        <h3 class="text-center">Choose default option to set your Schedule</h3>
+
+                        <li><input type="radio" name="start_time" value=7> 7:00</li>
+                        <li><input type="radio" name="start_time" value="8"> 8:00</li>
+                        <li><input type="radio" name="start_time" value="9"> 9:00</li>
+                        <li><input type="radio" name="start_time" value="10"> 10:00</li>
+
+
+                        <li><input type="checkbox" name="all_days"> All_Days</li>
+
+                        <li><input type="checkbox" name="workdays"> Only workday</li>
+                        <li><input type="checkbox" name="sat"> Work Saturdays</li>
+
+                        <li><input type="checkbox" name="sun"> Work Sundays</li>
+                        <input class="btn btn-warning right" type="submit" value=Zapisz>
+                    </ul>
+                </div>
+            </form>
+            {% if user.is_authenticated %}
+                {#schedule as table signel worker #}
+
+                <div class="col-3">
+                    <h3 class="text-center">Add Holidays</h3>
+                    <form class="col-8" method="POST" action="{% url 'add_holiday' month_number=month_number year=year%}">
+                        {% csrf_token %}
+                        {{ form_holiday|crispy }}
+                        <input class="btn btn-info right" type="submit" value=Zapisz>
+                        Number of holidays days: {{ number_of_avaiable_holiday_days }}
+                    </form>
+
+
+                </div>
+                <div>
+                    <h5 class="text-center">Delete</h5>
+                    <table border="1px">
+                        <form method="GET" action="{% url 'delete_day' month_number=month_number year=year%}">
+                            {% csrf_token %}
+                            <th colspan="4" class="text-center">{{ worker }}</th>
+                            {% for emploee in work_day %}
+                                <tr>
+                                    <td>{{ emploee.date_day }}</td>
+
+                                    <td>
+                                        {% if emploee.time_start %}
+                                            {{ emploee.time_start }}
+                                        {% else %}
+                                            URLOP
+                                        {% endif %}
+                                    </td>
+                                    <td> {% if emploee.time_end %}
+                                        {{ emploee.time_end }}
+                                    {% else %}
+                                        URLOP
+                                    {% endif %}
+                                    </td>
+                                    <td><input type="checkbox" name="{{ emploee.pk }}">Usuń</td>
+                                </tr>
+                            {% endfor %}
+                            <th class="text-center" colspan="4"><input class="btn btn-danger right" type="submit"
+                                                                       value="Usuń"></th>
+                        </form>
+                    </table>
+                </div>
+            {% endif %}
+        </div><!-- end of row for form and calandar!-->
+
+    </div>
+
+
+{% endblock %}
+{% block footer %}
+{% endblock %}

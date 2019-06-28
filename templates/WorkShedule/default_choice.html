@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form method="POST">
+    {% csrf_token %}
+
+
+    <a>Wybierz od której</a>
+
+    <a><input type="radio" name="start_time" value=7> 7:00</a>
+    <a><input type="radio" name="start_time" value="8"> 8:00</a>
+    <a><input type="radio" name="start_time" value="9"> 9:00</a>
+    <a><input type="radio" name="start_time" value="10"> 10:00</a>
+
+
+
+    <a><input type="checkbox" name="all_days"> Wszystkie Dni</a>
+
+    <a><input type="checkbox" name="workdays" > Praca w Tygodniu</a>
+    <a><input type="checkbox" name="sat"> Praca w Sobote</a>
+
+    <a><input type="checkbox" name="sun"> Praca w Niedziele</a>
+    {{ message }}
+    <input type="submit" value=Wybierz>
+</form>
+
+</body>
+</html>

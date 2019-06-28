@@ -27,7 +27,8 @@
 {% include 'WorkShedule/navbar.html' %}
 
 </head>
-<body>
+<body style="background-image: url('{% static 'WorkSchedule/img/back.png' %}')">
+
 
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
@@ -66,28 +67,28 @@
 
 
     {% now "n" as current_month %}
+    {% now 'Y' as current_year%}
     <div class="container">
         <div class="row">
             <div class=" mx-auto my-5">
-                <a class="btn btn-outline-info" href="{% url 'calendar' month_number=current_month %}"> Przejdz do
-                    obecnego miesiąca </a>
+                <a class="btn btn-outline-info" href="{% url 'calendar' month_number=current_month year=current_year %}"> Go to current Month </a>
             </div>
         </div>
     </div>
     <div class="container">
         <div>
-            <a class="btn btn-outline-info mb-4" href="{% url 'calendar' month_number=1 %}"> Styczeń </a>
-            <a class="btn btn-outline-info mb-4" href="{% url 'calendar' month_number=2 %}"> Luty </a>
-            <a class="btn btn-outline-info mb-4" href="{% url 'calendar' month_number=3 %}"> Marzec </a>
-            <a class="btn btn-outline-info mb-4" href="{% url 'calendar' month_number=4 %}"> Kwiecień </a>
-            <a class="btn btn-outline-info mb-4" href="{% url 'calendar' month_number=5 %}"> Maj </a>
-            <a class="btn btn-outline-info mb-4" href="{% url 'calendar' month_number=6 %}"> Czerwiec </a>
-            <a class="btn btn-outline-info mb-4" href="{% url 'calendar' month_number=7 %}"> Lipiec</a>
-            <a class="btn btn-outline-info mb-4" href="{% url 'calendar' month_number=8 %}"> Sierpień </a>
-            <a class="btn btn-outline-info mb-4" href="{% url 'calendar' month_number=9 %}"> Wrzesień </a>
-            <a class="btn btn-outline-info mb-4" href="{% url 'calendar' month_number=10 %}"> Październik </a>
-            <a class="btn btn-outline-info mb-4" href="{% url 'calendar' month_number=11 %}"> Listopad </a>
-            <a class="btn btn-outline-info mb-4" href="{% url 'calendar' month_number=12 %}"> Grudzień </a>
+            <a class="btn btn-outline-info mb-4" href="{% url 'calendar' month_number=1 year=current_year%}"> January</a>
+            <a class="btn btn-outline-info mb-4" href="{% url 'calendar' month_number=2 year=current_year%}"> February </a>
+            <a class="btn btn-outline-info mb-4" href="{% url 'calendar' month_number=3 year=current_year%}"> March </a>
+            <a class="btn btn-outline-info mb-4" href="{% url 'calendar' month_number=4 year=current_year%}"> April </a>
+            <a class="btn btn-outline-info mb-4" href="{% url 'calendar' month_number=5 year=current_year%}"> May </a>
+            <a class="btn btn-outline-info mb-4" href="{% url 'calendar' month_number=6 year=current_year%}"> June </a>
+            <a class="btn btn-outline-info mb-4" href="{% url 'calendar' month_number=7 year=current_year%}"> July</a>
+            <a class="btn btn-outline-info mb-4" href="{% url 'calendar' month_number=8 year=current_year%}"> August </a>
+            <a class="btn btn-outline-info mb-4" href="{% url 'calendar' month_number=9 year=current_year%}"> September </a>
+            <a class="btn btn-outline-info mb-4" href="{% url 'calendar' month_number=10 year=current_year%}"> October </a>
+            <a class="btn btn-outline-info mb-4" href="{% url 'calendar' month_number=11 year=current_year%}"> November </a>
+            <a class="btn btn-outline-info mb-4" href="{% url 'calendar' month_number=12 year=current_year%}"> December </a>
         </div>
     </div>
 

@@ -1,3 +1,4 @@
+from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.forms import forms
 from .models import *
@@ -37,6 +38,14 @@ class AddUserForm(forms.Form):
             )
 
 
+class UserRegisterForm(UserCreationForm):
+    email = forms.EmailField()
+    class Meta:
+        model = User
+        fields = ['username', 'email', 'password1', 'password2']
+
+
+
 class WorkDayForm(forms.Form):
     time_start = forms.TimeField(widget=forms.TextInput(attrs={'placeholder': 'HH:MM'}))
     time_end = forms.TimeField(widget=forms.TextInput(attrs={'placeholder': 'HH:MM'}))
@@ -46,3 +55,12 @@ class WorkDayForm(forms.Form):
     # DateInput = partial(forms.DateInput, {'class': 'datetime-input'})
     # start_date = forms.DateField(widget=DateInput())
     # end_date = forms.DateField(widget=DateInput())
+
+class HolidayForm(forms.Form):
+    start_date_free = forms.DateField(widget=forms.DateInput(attrs={'class': 'datepicker'}))
+    end_date_free = forms.DateField(required=False, widget=forms.DateInput(attrs={'class': 'datepicker'}))
+    date_free=forms.BooleanField(widget=forms.HiddenInput(),initial=True)
+    time_start = forms.TimeField(widget=forms.HiddenInput(),initial="00:00")
+    time_end = forms.TimeField(widget=forms.HiddenInput(),initial="00:00")
+
+

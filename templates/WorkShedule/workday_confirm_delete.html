@@ -1,18 +1,21 @@
 {% extends 'WorkShedule/base.html' %}
 {% block description %}
-    <h1 class="display-5 text-center">Usuń</h1>
+    <h1 class="display-5 text-center">DELETE DAY</h1>
 {% endblock %}
 
 {% block content %}
-<form method="POST">{% csrf_token %}
+    <div class="container">
+        <form method="POST">{% csrf_token %}
 
-    <p>Na Pewno chcesz usunąć dzień:</p>
-    {% for day in  list_day_to_delete%}
-        <p>"{{ day.date_day}}"</p>
-    {% endfor %}
+            <h2>Are you sure you want to delete :</h2>
+            {% for day in  list_day_to_delete %}
+                <h4>{{ day.date_day }}"</h4>
+            {% endfor %}
 
 
 
-    <input class="btn btn-info right" type="submit" value="Potwierdź">  <a class="btn btn-info right" href="{% url 'calendar' month_number=month_number %}">Cancel</a>
-</form>
- {% endblock %}
+            <input class="btn btn-info right" type="submit" value="Confirm"> <a class="btn btn-info right"
+                                                                                  href="{% url 'personal_schedule' month_number=month_number year=year %}">Cancel</a>
+        </form>
+    </div>
+{% endblock %}

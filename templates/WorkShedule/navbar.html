@@ -1,7 +1,7 @@
 
 
 <nav class="navbar navbar-expand-md navbar-dark bg-secondary ">
-    <div class="container">
+    <div class="container-fluid">
         <a class="navbar-brand mr-auto" href="{% url 'start' %}">WorkSchedule</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle"
                 aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
@@ -10,7 +10,9 @@
         <div class="collapse navbar-collapse" id="navbarToggle">
             <div class="navbar-nav mr-auto">
                 {% now "n" as current_month %}
-                <a class="nav-item nav-link" href="{% url 'calendar' month_number=current_month %}">Current month</a>
+                {% now 'Y' as current_year%}
+                <a class="nav-item nav-link" href="{% url 'calendar' month_number=current_month year=current_year %}">Current month</a>
+                <a class="nav-item nav-link" href="{% url 'personal_schedule' month_number=current_month year=current_year  %}">Personal Schedule</a>
                 <a class="nav-item nav-link" href="">About</a>
             </div>
             <!-- Navbar Right Side -->
@@ -20,7 +22,7 @@
                     <a class="nav-item nav-link" href="">{{ request.user }}</a>
                 {% else %}
                     <a class="nav-item nav-link" href="{% url 'login' %}">Login</a>
-                    <a class="nav-item nav-link" href="">Register</a>
+                    <a class="nav-item nav-link" href="{% url 'register' %}">Register</a>
                 {% endif %}
             </div>
         </div>

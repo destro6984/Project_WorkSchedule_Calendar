@@ -2,13 +2,14 @@
 {% block content %}
     {% load crispy_forms_tags %}
     {{ message|safe }}
-    <div class="content-section">
+    <div class="container">
+        <div class="content-section mr-auto">
 
             <form class="ml-5 my-5" method="POST">
                 {% csrf_token %}
-                {{ form.as_table }}
+                {{ form|crispy }}
                 <input class="btn btn-info right" type="submit" value={{ submit }}>
             </form>
-
+        </div>
     </div>
 {% endblock %}

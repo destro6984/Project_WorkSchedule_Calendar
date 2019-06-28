@@ -13,7 +13,7 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-from WorkShedule.local_settings import USER_POSTGRES, PASSWORD_POSTGRES
+from WorkShedule.local_settings import USER_POSTGRES, PASSWORD_POSTGRES, EMAIL_HOST_PASSWORD_pass
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -132,3 +132,10 @@ STATICFILES_DIRS = [
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 LOGIN_REDIRECT_URL = 'login'
 LOGIN_URL = 'login'
+
+
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'tmwzaiptesting@gmail.com'
+EMAIL_HOST_PASSWORD = EMAIL_HOST_PASSWORD_pass
+EMAIL_PORT = 587

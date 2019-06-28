@@ -9,7 +9,7 @@ $(function () {
 
 
     $(".alert_button").on('click', function () {
-        $(".dropdown-ul").toggleClass('active')
+        $(".dropdown-ul").toggleClass('active');
 
     });
 

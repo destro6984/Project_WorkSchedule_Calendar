@@ -1,110 +1,100 @@
 body {
-    background-color: whitesmoke;
+
+    background-size: 1800px 900px;
+    background-repeat: no-repeat;
+    background-position: top;
+    background-attachment: fixed;
+    ;
 }
 
-
-.top-right {
-    float: right;
-    top: 8px;
-    right: 16px;
-    margin-right: auto;
-    display: inline-block;
-    padding-right: 30px;
-    position: absolute;
-    top: 30px;
-    right: 0px;
-}
-
-.top-right-left {
-    float: right;
-    top: 8px;
-    right: 16px;
-    margin-right: auto;
-    display: inline-block;
-    padding-right: 30px;
-    position: absolute;
-    top: 30px;
-    right: 500px;
-}
-
-
-
-.fit {
-    white-space: nowrap;
-    width: 1%;
-}
-
-.calendar td {
-    min-width: 110px;
-    word-wrap: break-word;
+.container .calendar {
+    width: 98%;
+    margin: auto;
+    font-size: 13px;
+    border-collapse: collapse;
+    table-layout: fixed;
 
 }
-
-
 
 .calendar tr, .calendar td {
-  border: 1px solid black;
+    border: 1px solid black;
+
 }
 
 .calendar th {
-  text-align: center;
-  font-size: 15px;
+    padding: 10px;
+    text-align: center;
+    font-size: 18px;
 }
 
 .calendar td {
-  min-width: 120px;
-  height: 100px;
-  max-height: 100px;
-    word-wrap: break-word;
-  padding: 0px 0px 0px 5px;
+    width: 100px;
+    height: 60px;
+    padding: 20px 0px 0px 5px;
 }
 
 .month {
-  font-size: 18px;
+    font-size: 25px;
 }
 
 .date {
-  font-size: 14px;
+    font-size: 16px;
 }
 
+ul {
+    height: 100%;
+    padding: 0px 5px 0px 20px;
+    overflow: hidden;
 
+}
 
 a {
-  color: #17a2b8;
+    color: #17a2b8;
 }
 
-p {
-    font-size:15px;
-    word-wrap: break-word
+.calendar td li {
+    position: relative;
+    list-style: none;
 }
 
+/*end calednar css
+
+
+
+/*radaiobutony*/
+.radiobuttons li {
+    list-style: none;
+
+}
 
 /*do drop_alertów*/
 
 
-.dropdown-alerts{
+.dropdown-alerts {
     position: absolute;
     top: 50%;
-    left:50%;
-    transform: translate(-50%,-50%)
+    left: 50%;
+    transform: translate(-50%, -50%)
 
 }
 
-.alert_button{
+.alert_button {
     position: relative;
-    width:100px;
-    height:50px;
-    font-size:16px;
+    width: 100px;
+    height: 50px;
+    font-size: 16px;
+    border: solid 3px;
     background: #17a2b8;
-    border: none;
     box-shadow: none;
     outline: none;
     cursor: pointer;
     color: whitesmoke;
+
+
 }
 
 
-.dropdown-ul{
+.dropdown-ul {
     position: absolute;
     margin: 0;
     padding: 0;
@@ -113,15 +103,18 @@ p {
     transform: perspective(1000px) rotateX(-90deg);
 
 }
-.dropdown-ul.active{
+
+.dropdown-ul.active {
     transform: perspective(1000px) rotateX(0deg);
+    position: relative;
 }
 
-.dropdown-ul li{
+.dropdown-ul li {
     list-style: none;
 }
-.dropdown-ul li a{
-    display:block;
+
+.dropdown-ul li a {
+    display: block;
     text-align: center;
     text-decoration: none;
     background: aqua;
@@ -129,3 +122,8 @@ p {
 
 
 }
+
+.holiday {
+    background-color: yellow;
+}
+

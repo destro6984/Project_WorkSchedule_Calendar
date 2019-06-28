@@ -17,16 +17,21 @@ from django.conf.urls import url
 from django.contrib import admin
 from django.urls import path, include
 
-from WorkShedule.views import Homepage, CalendarView, LoginUser, Logout, DeleteDateDay, calendar, TestView
+from WorkShedule.views import Homepage, CalendarView, LoginUser, Logout, DeleteDateDay, calendar, TestView, AddDefault, \
+    PersonalScheduleView, AddHoliday, RegisterUser, ListWorkers
 
 urlpatterns = [
     url(r'^$', Homepage.as_view(), name='start'),
-    url(r'^calendar/(?P<month_number>\d+)$', CalendarView.as_view(), name='calendar'),
+    url(r'^calendar/(?P<month_number>\d+)/(?P<year>\d{4})$', CalendarView.as_view(), name='calendar'),
     url(r'^login/$', LoginUser.as_view(), name='login'),
     url(r'^logout/$', Logout.as_view(), name='logout'),
     url(r'^home/$', TestView.as_view(), name='TestView'),
-
-    url(r'^delete_day/(?P<month_number>\d+)$', DeleteDateDay.as_view(), name='delete_day'),
+    url(r'^add_default/(?P<month_number>\d+)/(?P<year>\d{4})$', AddDefault.as_view(), name='add_default'),
+    url(r'^personal_schedule/(?P<month_number>\d+)/(?P<year>\d{4})$', PersonalScheduleView.as_view(), name='personal_schedule'),
+    url(r'^add_holiday/(?P<month_number>\d+)/(?P<year>\d{4})$', AddHoliday.as_view(), name='add_holiday'),
+    url(r'^delete_day/(?P<month_number>\d+)/(?P<year>\d{4})$', DeleteDateDay.as_view(), name='delete_day'),
+    url(r'^register/$', RegisterUser.as_view(), name='register'),
+    url(r'^listworkers/$', ListWorkers.as_view(), name='listworkers'),
 
 
 

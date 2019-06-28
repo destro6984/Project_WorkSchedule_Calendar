@@ -3,10 +3,6 @@
 
 <h1>Calendar</h1>
 
-<div id="calendar">
-{% for wor in all_staff %}
-  {{wor}}
-{% endfor %}
-</div>
+{{ html_cal|safe }}
 
 {% endblock %}
