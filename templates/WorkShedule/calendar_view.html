@@ -3,8 +3,10 @@
 {% block description %}
     <h1 class=" text-center">Calendar</h1>
 {% endblock %}
+{% block jumbo %}
+{% endblock %}
 {% block content %}
-{% now "n" as current_month %}
+    {% now "n" as current_month %}
 
 
     {#        buttons next/previous/current#}
@@ -12,50 +14,51 @@
 
         <div class="container">
             <div class="row mb-1">
-                <div class="col-4 mx-auto">
-                    <a class="btn btn-info " href="{% url 'calendar' month_number=prev_month year=previous_year %}"> Previous </a>
+                <div class="col-4 text-left">
+                    <a class="btn btn-info " href="{% url 'calendar' month_number=prev_month year=previous_year %}">
+                        Previous </a>
                 </div>
-                <div class="col-4 mx-auto">
-                    <a class="btn btn-info " href="{% url 'calendar' month_number=current_month year=year %}"> Current Month </a>
+                <div class="col-4 text-center">
+                    <a class="btn btn-info " href="{% url 'calendar' month_number=current_month year=year %}"> Current
+                        Month </a>
                 </div>
-                <div class="col-4 ml-auto">
-                    <a class="btn btn-info " href={% url 'calendar' month_number=next_month year=next_year%}> Next </a>
+                <div class="col-4 mr-auto text-right">
+                    <a class="btn btn-info " href={% url 'calendar' month_number=next_month year=next_year %}> Next </a>
                 </div>
-
 
 
             </div>
         </div>
     </div>
 
-<div class="container mb-1">
-    {#    calendar#}
+    <div class="container mb-1">
+        {#    calendar#}
 
-            {{ call|safe }}
-            </table>
-</div>
-<div class="container">
-    <div class="row">
+        {{ call|safe }}
+        </table>
+    </div>
+    <div class="container">
+        <div class="row">
 
 
             {% if user.is_authenticated %}
                 {#schedule as table of every worker#}
 
-{#                    <table border="1px">#}
-{#                        <th colspan="4" class="text-center">Crew</th>#}
-{#                        {% for emploee in all_staff %}#}
-{#                            <tr>#}
-{#                                <td>{{ emploee.employee }} </td>#}
-{#                                <td>{{ emploee.time_start }}</td>#}
-{#                                <td>{{ emploee.time_end }}</td>#}
-{#                                <td>{{ emploee.date_day }}</td>#}
-{#                            </tr>#}
-{##}
-{#                        {% endfor %}#}
-{#                    </table>#}
+                {#                    <table border="1px">#}
+                {#                        <th colspan="4" class="text-center">Crew</th>#}
+                {#                        {% for emploee in all_staff %}#}
+                {#                            <tr>#}
+                {#                                <td>{{ emploee.employee }} </td>#}
+                {#                                <td>{{ emploee.time_start }}</td>#}
+                {#                                <td>{{ emploee.time_end }}</td>#}
+                {#                                <td>{{ emploee.date_day }}</td>#}
+                {#                            </tr>#}
+                {##}
+                {#                        {% endfor %}#}
+                {#                    </table>#}
 
                 {#    alerts about the schedule#}
-                 <button class="alert_button"> Click To See Alerts</button>
+                <button class="alert_button"> Click To See Alerts</button>
                 <div class="col-2 ml-1">
 
                     <ul class="dropdown-ul">
@@ -66,14 +69,29 @@
                     </ul>
 
                 </div>
-                              <div class="col-2">
+                <div class="col-2">
                     <ul class="dropdown-ul">
                         <a>Days with to many Holidays</a>
                         {% for day in not_to_many_holiday_list %}
-                            <li><a>{{ day}}/{{ day|date:'F' }} </a></li>
+                            <li><a>{{ day }}/{{ day|date:'F' }} </a></li>
                         {% endfor %}
                     </ul>
 
+                </div>
+                <div>
+                {% now "n" as current %}
+                {% if month_number  == current %}
+                    <h5>Today's Crew:</h5>
+                    <ul>
+                        {% for workerr in workers_for_current_day %}
+                            {% if workerr.time_start != None %}
+                                <li>{{ workerr.employee }}:{{ workerr.time_start }}- {{ workerr.time_end }}</li>
+                            {% endif %}
+
+
+                        {% endfor %}
+                    </ul>
+                     {% endif %}
                 </div>
 
 
@@ -84,9 +102,9 @@
 
     </div>
     <div>
-        <p>Id Usera: {{ request.user.id }} username:{{ request.user.username }}</p>
+        <p>User ID: {{ request.user.id }} Username:{{ request.user.username }}</p>
     </div>
-</div>
+    </div>
 {% endblock %}
 {% block footer %}
 {% endblock %}

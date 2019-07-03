@@ -9,47 +9,35 @@ from django.contrib.auth.models import User
 
 import locale
 
-locale.setlocale(locale.LC_TIME, 'pl_PL.utf8')
+# locale.setlocale(locale.LC_TIME, 'pl_PL.utf8')
+locale.setlocale(locale.LC_TIME, 'en_US.utf8')
 
-
-# <div class="dropdown">
-#   <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-#     Dropdown
-#   </button>
-#   <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-#     <button class="dropdown-item" type="button">Action</button>
-#     <button class="dropdown-item" type="button">Another action</button>
-#     <button class="dropdown-item" type="button">Something else here</button>
-#   </div>
-# </div>
 
 
 class Calendar(HTMLCalendar):
-    def __init__(self, year=None, month=None, free_day=None):
+    def __init__(self, year=None, month=None, free_day=None, workers=None):
         self.year = int(year)
         self.month = month
         self.free_day = free_day
+        self.workers= workers
         super(Calendar, self).__init__()
 
-    def formatday(self, day, workday):
+    def formatday(self, day, workday, workers=0):
 
         employee_that_day = workday.filter(date_day__day=day, date_free=False)
+
         holiday = workday.filter(date_day__day=day, date_free=True)
         d = ''
 
-        if User.objects.filter(is_staff=True):
-            for worker in employee_that_day:
-                d += f"<li><a href='/listworkers/'>{worker.employee}</a>:{worker.time_start.strftime('%H:%M')}-{worker.time_end.strftime('%H:%M')}<br></li>"
-            for worker in holiday:
-                d += f'<li class="holiday"> {worker.employee}:URLOP <br></li>'
-        else:
-            for worker in employee_that_day:
-                d += f"<li > {worker.employee}:{worker.time_start.strftime('%H:%M')}-{worker.time_end.strftime('%H:%M')}<br></li>"
-            for worker in holiday:
-                d += f'<li class="holiday"> {worker.employee}:URLOP <br></li>'
+
+        for worker in employee_that_day:
+            d += f"<li> {worker.employee}:{worker.time_start.strftime('%H:%M')}-{worker.time_end.strftime('%H:%M')}<br></li>"
+            workers = workday.filter(date_day__day=day, date_free=False).count()
+        for worker in holiday:
+            d += f'<li class="holiday"> {worker.employee}:URLOP <br></li>'
 
         if day != 0:
-            return f"<td>{day}<br></span><ul style='padding-left: 0;'>{d}</ul></td>"
+            return f"<td>{day}<br><div class='dropdown'><button class='dropdown-toggle' type='button' data-toggle='dropdown'>Number of workers:{workers}</button> <ul class='dropdown-menu' style='padding-left: 0;'>{d}</ul></div></td>"
         return '<td></td>'
 
     # formats a week as a t
@@ -87,7 +75,7 @@ class Calendar(HTMLCalendar):
     def formatmonth(self, withyear=True):
         workdays = WorkDay.objects.filter(date_day__year=self.year, date_day__month=self.month)
 
-        cal = f"<table border='0' cellpadding='0' cellspacing='0' class='container calendar' style='width: 100%;'>\n"
+        cal = f"<table border='0' cellpadding='0' cellspacing='0' class='container calendar' style='width: 100%; word-wrap:break-word'>\n"
         cal += f'{self.formatmonthname(self.year, self.month, withyear=withyear)}\n'
         cal += f'{self.formatweekheader()}\n'
         for week in self.monthdays2calendar(self.year, self.month):
@@ -104,7 +92,7 @@ class CalendarForUser(Calendar):
     def formatday(self, day, workday):
 
         employee_that_day = workday.filter(date_day__day=day, employee=self.user, date_free=False)
-        holiday = workday.filter(date_day__day=day, date_free=True)
+        holiday = workday.filter(date_day__day=day,employee=self.user, date_free=True)
         d = ''
         for worker in employee_that_day:
             d += f'<a> {worker.employee}:{worker.time_start}-{worker.time_end}<br></a>'

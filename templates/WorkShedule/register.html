@@ -1,5 +1,7 @@
 {% extends "WorkShedule/base.html" %}
 {% load crispy_forms_tags %}
+{% block jumbo %}
+{% endblock %}
 {% block content %}
     <div class="container">
         <div class="content-section">
@@ -9,8 +11,8 @@
                     <legend class="border-bottom mb-4"> Join Today</legend>
                     {{ form|crispy }}
                 </fildset>
-                <div class="form-group">
-                    <button class="btn btn-outline-info" type="submit"> Sing UP</button>
+                <div class="form-group text-center">
+                    <button class="btn btn-outline-info" type="submit"> Sing Up</button>
                 </div>
             </form>
             <div class="border-top pt-3">
@@ -21,5 +23,8 @@
         </div>
 
     </div>
-{% endblock content %}
+
+{% endblock %}
+{% block footer %}
+{% endblock %}
 

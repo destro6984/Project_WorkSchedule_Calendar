@@ -1,4 +1,6 @@
 {% extends 'WorkShedule/base.html' %}
+{% block jumbo %}
+{% endblock %}
 {% block description %}
     <h1 class="display-5 text-center">DELETE DAY</h1>
 {% endblock %}
@@ -18,4 +20,6 @@
                                                                                   href="{% url 'personal_schedule' month_number=month_number year=year %}">Cancel</a>
         </form>
     </div>
+{% endblock %}
+{% block footer %}
 {% endblock %}

@@ -41,7 +41,6 @@ INSTALLED_APPS = [
     'bootstrap4',
     'crispy_forms',
 
-
 ]
 
 MIDDLEWARE = [
@@ -110,9 +109,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
 
-LANGUAGE_CODE = 'pl-pl'
+LANGUAGE_CODE = 'en'
 
-TIME_ZONE = 'Europe/Warsaw' # UTC
+TIME_ZONE = 'Europe/Warsaw'  # UTC
 
 USE_I18N = True
 
@@ -133,9 +132,10 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 LOGIN_REDIRECT_URL = 'login'
 LOGIN_URL = 'login'
 
-
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'tmwzaiptesting@gmail.com'
 EMAIL_HOST_PASSWORD = EMAIL_HOST_PASSWORD_pass
 EMAIL_PORT = 587
+
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True

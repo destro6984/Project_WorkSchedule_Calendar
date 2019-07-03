@@ -14,13 +14,17 @@ class LoginUserForm(forms.Form):
     password = forms.CharField(widget=forms.PasswordInput)
 
 
+
+
 def is_login_repeated(value):
     user = User.objects.filter(username=value)
     if user.count():
         raise forms.ValidationError("That user is already taken , please select another ")
 
-
 class AddUserForm(forms.Form):
+    """
+    not used just to practise
+    """
     username = forms.CharField(validators=[is_login_repeated])
     password = forms.CharField(widget=forms.PasswordInput)
     repeat_password = forms.CharField(widget=forms.PasswordInput)
@@ -34,12 +38,12 @@ class AddUserForm(forms.Form):
         repeat_password = cleaned_data.get("repeat_password")
         if password != repeat_password:
             raise forms.ValidationError(
-                "Powtórzone hasło nie jest takie samo"
+                "Repeated password is not the same"
             )
 
 
 class UserRegisterForm(UserCreationForm):
-    email = forms.EmailField()
+    email = forms.EmailField(required=True)
     class Meta:
         model = User
         fields = ['username', 'email', 'password1', 'password2']

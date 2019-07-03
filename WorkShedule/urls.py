@@ -31,7 +31,6 @@ urlpatterns = [
     url(r'^add_holiday/(?P<month_number>\d+)/(?P<year>\d{4})$', AddHoliday.as_view(), name='add_holiday'),
     url(r'^delete_day/(?P<month_number>\d+)/(?P<year>\d{4})$', DeleteDateDay.as_view(), name='delete_day'),
     url(r'^register/$', RegisterUser.as_view(), name='register'),
-    url(r'^listworkers/$', ListWorkers.as_view(), name='listworkers'),
 
 
 

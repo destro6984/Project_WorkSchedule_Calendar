@@ -42,9 +42,8 @@ body {
 }
 
 ul {
-    height: 100%;
     padding: 0px 5px 0px 20px;
-    overflow: hidden;
+
 
 }
 
@@ -55,12 +54,10 @@ a {
 .calendar td li {
     position: relative;
     list-style: none;
+    font-size: 13px;
 }
 
 /*end calednar css
-
-
-
 /*radaiobutony*/
 .radiobuttons li {
     list-style: none;
@@ -127,3 +124,7 @@ a {
     background-color: yellow;
 }
 
+
+.navbar-nav li:hover>.dropdown-menu {
+    display: block;
+}
