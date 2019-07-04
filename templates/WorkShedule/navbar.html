@@ -13,11 +13,11 @@
                 {% now 'Y' as current_year%}
                 <a class="nav-item nav-link" href="{% url 'calendar' month_number=current_month year=current_year %}">Current month</a>
                 <a class="nav-item nav-link" href="{% url 'personal_schedule' month_number=current_month year=current_year  %}">Personal Schedule</a>
-                <a class="nav-item nav-link" href="">About</a>
+                <a class="nav-item nav-link text-muted" href="">About</a>
             </div>
             <!-- Navbar Right Side -->
             <div class="navbar-nav">
-                {% if user.is_authenticated %}    {# is.authenticaed czy jest zalogowany wbudowana w django #}
+                {% if user.is_authenticated %}    {# is.authenticaed  #}
                     <a class="nav-item nav-link" href="{% url 'logout' %}">Logout</a>
                     <a class="nav-item nav-link" href="">{{ request.user }}</a>
                 {% else %}

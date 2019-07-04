@@ -75,23 +75,30 @@
                         {% for day in not_to_many_holiday_list %}
                             <li><a>{{ day }}/{{ day|date:'F' }} </a></li>
                         {% endfor %}
+                        {% if not_to_many_holiday_list %}
+                        <li>
+                            <form action="#" method="get">
+                                <input type="submit" class="btn btn-info" value="Send Warning Info" name="send">
+                            </form>
+                        </li>
+                        {% endif %}
                     </ul>
 
                 </div>
                 <div>
-                {% now "n" as current %}
-                {% if month_number  == current %}
-                    <h5>Today's Crew:</h5>
-                    <ul>
-                        {% for workerr in workers_for_current_day %}
-                            {% if workerr.time_start != None %}
-                                <li>{{ workerr.employee }}:{{ workerr.time_start }}- {{ workerr.time_end }}</li>
-                            {% endif %}
+                    {% now "n" as current %}
+                    {% if month_number  == current %}
+                        <h5>Today's Crew:</h5>
+                        <ul>
+                            {% for workerr in workers_for_current_day %}
+                                {% if workerr.time_start != None %}
+                                    <li>{{ workerr.employee }}:{{ workerr.time_start }}- {{ workerr.time_end }}</li>
+                                {% endif %}
 
 
-                        {% endfor %}
-                    </ul>
-                     {% endif %}
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
                 </div>
 
 

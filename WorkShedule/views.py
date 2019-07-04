@@ -1,6 +1,4 @@
-
 import datetime
-
 
 from dateutil.relativedelta import relativedelta
 from django.contrib.auth import authenticate, login, logout
@@ -22,7 +20,7 @@ from .models import *
 
 def EmailWarrning():
     # test/rubish
-    email = EmailMessage('title', 'body', to=['a.m.przyboroski@gmail.com'])
+    email = EmailMessage('title', 'body', to=['a.m.@gmail.com'])
     email.send()
     return
 
@@ -55,45 +53,51 @@ def is_enough_worker(month_number):
     current_day = date.replace(day=1, month=month_number)
     days_not_enough_worker = []
     while current_day.month == month_number:
-        if (current_day.weekday() in range(0, 5)) and (WorkDay.objects.filter(date_day=current_day).count()) < 3 or \
-                (current_day.weekday() in range(5, 7)) and (WorkDay.objects.filter(date_day=current_day).count()) < 2:
+        if (current_day.weekday() in range(0, 5)) and (WorkDay.objects.filter(date_day=current_day, date_free=False).count()) < 3 or \
+                (current_day.weekday() in range(5, 7)) and (WorkDay.objects.filter(date_day=current_day,date_free=False).count()) < 2:
             days_not_enough_worker.append(current_day)
         current_day = current_day + timedelta(days=1)
     return days_not_enough_worker
 
 
-def not_to_many_holiday(month_number):
+def not_to_many_holiday(month_number, request):
     """
     function to check how many worker is on holiday per day
 
-
     list is printed at Alert Button
-    If too many workerkes has free day they got the email to change their plans
+    If too many workers has free day they got the email to change their plans
 
 
     :param month_number:
+    :param request:
     :return: list of days
     """
     date = datetime.today()
     current_day = date.replace(day=1, month=month_number)
-    days_too_manny_holiday = []
+    days_too_many_holiday = []
     while current_day.month == month_number:
         qs = WorkDay.objects.filter(date_day=current_day, date_free=True)
         if qs.count() > 2:
-            days_too_manny_holiday.append(current_day.strftime('%Y-%m-%d'))
-            emails = [workday.employee.email for workday in qs]
-            email = EmailMessage('Your Holiday', 'Hey we have a conflict here, please wonder about another date', to=emails)
-            email.send()
+            days_too_many_holiday.append(current_day.strftime('%Y-%m-%d'))
+            if request.GET.get('send'):
+                emails = [workday.employee.email for workday in qs]
+                email = EmailMessage("Your Holiday','Hey, there is too many people out during the time you've choosen, please wonder about another date",
+                                     to=emails)
+                email.send()
+                messages.success(request,"Warning Send")
+                return days_too_many_holiday, redirect('calendar', month_number= datetime.now().month,
+                                                                 year= datetime.now().year)
         current_day = current_day + timedelta(days=1)
-    return days_too_manny_holiday
+    return days_too_many_holiday
 
 
 class CalendarView(View):
     """
     Show the month with all workers per month with they holidays
 
-    calendar is taken from utils.py form built-in module calendar/HTML
+    calendar is taken from utils.py form built-in python module calendar/HTML
     """
+
     def get(self, request, month_number=None, year=None):
         month_number = month_number if month_number is not None else datetime.now().month
         year = year if year is not None else datetime.now().year
@@ -111,7 +115,8 @@ class CalendarView(View):
         mycall = Calendar(year, int(month_number))
         call = mycall.formatmonth(withyear=True)
         not_enough_worker_list = is_enough_worker(int(month_number))
-        not_to_many_holiday_list = not_to_many_holiday(int(month_number))
+        not_to_many_holiday_list = not_to_many_holiday(int(month_number), request)
+
 
         if request.user.is_authenticated:
             worker = User.objects.get(id=request.user.id)
@@ -120,7 +125,7 @@ class CalendarView(View):
             worker = None
             work_day = WorkDay.objects.all()
         all_staff = WorkDay.objects.filter(date_day__month=month_number)
-        workers_for_current_day= WorkDay.objects.filter(date_day=datetime.today().strftime('%Y-%m-%d'))
+        workers_for_current_day = WorkDay.objects.filter(date_day=datetime.today().strftime('%Y-%m-%d'))
         context = {'call': call,
                    'submit': "Save",
                    'all_staff': all_staff,
@@ -131,7 +136,7 @@ class CalendarView(View):
                    'month_number': month_number,
                    'next_year': next_year,
                    'previous_year': previous_year,
-                   'workers_for_current_day':workers_for_current_day,
+                   'workers_for_current_day': workers_for_current_day,
                    'year': year,
                    'not_enough_worker_list': not_enough_worker_list,
                    'not_to_many_holiday_list': not_to_many_holiday_list,
@@ -145,6 +150,7 @@ class AddDefault(View):
     Allows to set default schedule for worker depending on what days worker choose,
     form is on PersonalView
     """
+
     def post(self, request, month_number, year):
         month_number = int(month_number)
         date = datetime.today()
@@ -165,13 +171,15 @@ class AddDefault(View):
                     (current_day.weekday() == 6 and is_sundays) or \
                     all_days:
                 try:
-                    WorkDay.objects.get(date_day=current_day,employee=request.user, date_free=True)
+                    WorkDay.objects.get(date_day=current_day, employee=request.user, date_free=True)
                 except ObjectDoesNotExist:
+
                     WorkDay.objects.update_or_create(
                         date_day=current_day, employee_id=request.user.id, date_free=False,
                         defaults={'time_start': time_start,
                                   'time_end': time_end})
             current_day = current_day + timedelta(days=1)
+        messages.success(request, "Added")
         return redirect('personal_schedule', month_number=month_number, year=year)
 
 
@@ -179,8 +187,9 @@ class PersonalScheduleView(LoginRequiredMixin, View):
     """
     Shows personal Schedule for worker,
     allows: adding days-single/range
-    form for adding holiday
+    adding holiday
     """
+
     def get(self, request, month_number, year=None):
         year = year if year is not None else datetime.now().year
         calendar = CalendarForUser(year, int(month_number), user=request.user)
@@ -268,7 +277,7 @@ class PersonalScheduleView(LoginRequiredMixin, View):
             messages.success(request, 'Added')
         else:
             try:
-                WorkDay.objects.get(date_day=working_day,employee=request.user, date_free=True)
+                WorkDay.objects.get(date_day=working_day, employee=request.user, date_free=True)
             except ObjectDoesNotExist:
                 WorkDay.objects.update_or_create(date_day=working_day, employee_id=employee_id, date_free=False,
                                                  defaults={'time_start': time_start,
@@ -281,6 +290,7 @@ class AddHoliday(View):
     """
     adding holidays, check the number of day which can taken as holidays
     """
+
     def post(self, request, month_number, year):
         form = HolidayForm(request.POST)
 
@@ -292,11 +302,11 @@ class AddHoliday(View):
             number_of_avaiable_holiday_days = 26 - WorkDay.objects.filter(employee=request.user.id,
                                                                           date_free=True).count()
             try:
-                counter=(end_date_free-start_date_free).days
+                counter = (end_date_free - start_date_free).days
             except:
-                counter=1
+                counter = 1
             if (number_of_avaiable_holiday_days > 0 and WorkDay.objects.filter(employee_id=request.user.id,
-                                                                              date_free=True).count() <= 26) and 0 < counter <= number_of_avaiable_holiday_days  :
+                                                                               date_free=True).count() <= 26) and 0 < counter <= number_of_avaiable_holiday_days:
                 if end_date_free != None:
                     while (free_day <= end_date_free):
                         WorkDay.objects.update_or_create(
@@ -324,8 +334,9 @@ class AddHoliday(View):
 class DeleteDateDay(View):
     """
     allows to delete days, form list, with checkbox
-    GET redirect from PersonalView, confirmation on delete
+    GET redirect from PersonalView, confirmation to delete
     """
+
     def get(self, request, month_number, year):
         year = year if year is not None else datetime.now().year
         list_day_to_delete = []
@@ -343,6 +354,7 @@ class DeleteDateDay(View):
             if value == "on":
                 day_to_delete = WorkDay.objects.filter(pk=key)
                 day_to_delete.delete()
+        messages.warning(request,"Deleted")
         return redirect('personal_schedule', month_number=month_number, year=year)
 
 
@@ -350,6 +362,7 @@ class LoginUser(View):
     """
     login module
     """
+
     def get(self, request):
         form = LoginUserForm()
         context = {'form': form, 'submit': "Log in"}
@@ -366,8 +379,8 @@ class LoginUser(View):
                 return redirect(reverse_lazy('calendar', kwargs={'month_number': datetime.now().month,
                                                                  'year': datetime.now().year}))
             else:
-                message = '<h3>Wrong user or passowrd</h3>'
-                context = {'form': form, 'submit': "Log IN", 'message': message}
+                message = "<h3 class='text-center'>Wrong user or password</h3>"
+                context = {'form': form, 'submit': "Log in", 'message': message}
                 return render(request, 'WorkShedule/form.html', context)
         else:
             context = {'form': form, 'submit': "Log in"}
@@ -378,16 +391,42 @@ class Logout(View):
     """
     logout module
     """
+
     def get(self, request):
         logout(request)
-        messages.info(request,"Logged Out")
+        messages.info(request, "Logged Out")
         return redirect('start')
+
+
+
+class RegisterUser(View):
+    """
+    registration module
+    """
+
+    def get(self, request):
+        form = UserRegisterForm()
+        return render(request, 'WorkShedule/register.html', context={'form': form})
+
+    def post(self, request):
+        form = UserRegisterForm(request.POST)
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data.get('username')
+            messages.success(request, f'{username} Your Account has been created, You are now able to login')
+            return redirect('login')
+        else:
+            form = UserRegisterForm(request.POST)
+        return render(request, 'WorkShedule/register.html', context={'form': form})
+
+
 
 
 class AddUser(View):
     """
-    register user manually/not used just to practise/
+    register user manually validation/not used just to practise/
     """
+
     def get(self, request):
         form = AddUserForm()
         context = {'form': form, "submit": "Add"}
@@ -409,27 +448,6 @@ class AddUser(View):
             messages.warning(request, "Error")
             context = {'form': form, "submit": "Add"}
             return render(request, 'WorkShedule/form.html', context)
-
-
-class RegisterUser(View):
-    """
-    registration module
-    """
-    def get(self, request):
-        form = UserRegisterForm()
-        return render(request, 'WorkShedule/register.html', context={'form': form})
-
-    def post(self, request):
-        form = UserRegisterForm(request.POST)
-        if form.is_valid():
-            form.save()
-            username = form.cleaned_data.get('username')
-            messages.success(request, f'{username} Your Account has been created, You are now able to login')
-            return redirect('login')
-        else:
-            form = UserRegisterForm(request.POST)
-        return render(request, 'WorkShedule/register.html', context={'form': form})
-
 # test/rubish
 # def get_context(self,request,month_number):
 #     day = datetime.now()

@@ -34,7 +34,7 @@ class Calendar(HTMLCalendar):
             d += f"<li> {worker.employee}:{worker.time_start.strftime('%H:%M')}-{worker.time_end.strftime('%H:%M')}<br></li>"
             workers = workday.filter(date_day__day=day, date_free=False).count()
         for worker in holiday:
-            d += f'<li class="holiday"> {worker.employee}:URLOP <br></li>'
+            d += f'<li class="holiday"> {worker.employee}:Holiday <br></li>'
 
         if day != 0:
             return f"<td>{day}<br><div class='dropdown'><button class='dropdown-toggle' type='button' data-toggle='dropdown'>Number of workers:{workers}</button> <ul class='dropdown-menu' style='padding-left: 0;'>{d}</ul></div></td>"
@@ -97,7 +97,7 @@ class CalendarForUser(Calendar):
         for worker in employee_that_day:
             d += f'<a> {worker.employee}:{worker.time_start}-{worker.time_end}<br></a>'
         for worker in holiday:
-            d += f'<a class="holiday"> {worker.employee}:URLOP <br></a>'
+            d += f'<a class="holiday"> {worker.employee}:holiday <br></a>'
 
         if day != 0:
             return f"<td><span class='date'>{day}<br></span><a>{d}</a></td>"

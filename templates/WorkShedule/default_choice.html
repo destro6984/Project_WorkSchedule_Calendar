@@ -9,7 +9,7 @@
     {% csrf_token %}
 
 
-    <a>Wybierz od której</a>
+    <a>Chose Start Time</a>
 
     <a><input type="radio" name="start_time" value=7> 7:00</a>
     <a><input type="radio" name="start_time" value="8"> 8:00</a>
@@ -18,14 +18,14 @@
 
 
 
-    <a><input type="checkbox" name="all_days"> Wszystkie Dni</a>
+    <a><input type="checkbox" name="all_days"> All Days</a>
 
-    <a><input type="checkbox" name="workdays" > Praca w Tygodniu</a>
-    <a><input type="checkbox" name="sat"> Praca w Sobote</a>
+    <a><input type="checkbox" name="workdays" > Only Workday</a>
+    <a><input type="checkbox" name="sat"> Saturdays</a>
 
-    <a><input type="checkbox" name="sun"> Praca w Niedziele</a>
-    {{ message }}
-    <input type="submit" value=Wybierz>
+    <a><input type="checkbox" name="sun"> Sundays</a>
+
+    <input type="submit" value=Choose>
 </form>
 
 </body>

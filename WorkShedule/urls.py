@@ -18,7 +18,7 @@ from django.contrib import admin
 from django.urls import path, include
 
 from WorkShedule.views import Homepage, CalendarView, LoginUser, Logout, DeleteDateDay, calendar, TestView, AddDefault, \
-    PersonalScheduleView, AddHoliday, RegisterUser, ListWorkers
+    PersonalScheduleView, AddHoliday, RegisterUser
 
 urlpatterns = [
     url(r'^$', Homepage.as_view(), name='start'),
