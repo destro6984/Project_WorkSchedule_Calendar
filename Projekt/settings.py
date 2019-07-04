@@ -13,7 +13,7 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-from WorkShedule.local_settings import USER_POSTGRES, PASSWORD_POSTGRES, EMAIL_HOST_PASSWORD_pass
+# from WorkShedule.local_settings import USER_POSTGRES, PASSWORD_POSTGRES, EMAIL_HOST_PASSWORD_pass
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
