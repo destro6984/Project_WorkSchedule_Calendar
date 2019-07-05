@@ -12,8 +12,12 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 
 import os
 
+try:
+    from WorkShedule.local_settings import *
+except ImportError:
+    pass
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-# from WorkShedule.local_settings import USER_POSTGRES, PASSWORD_POSTGRES, EMAIL_HOST_PASSWORD_pass
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -78,19 +82,13 @@ WSGI_APPLICATION = 'Projekt.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'pro',
-#         'USER': USER_POSTGRES,
-#         'PASSWORD': PASSWORD_POSTGRES,
-#         'HOST': 'localhost',
-#     }
-# }
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'pro',
+        'USER': USER_POSTGRES,
+        'PASSWORD': PASSWORD_POSTGRES,
+        'HOST': 'localhost',
     }
 }
 
