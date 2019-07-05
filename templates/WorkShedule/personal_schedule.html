@@ -7,6 +7,8 @@
     <h1 class="display-5 text-center">Calendar {{ request.user.username }}</h1>
 {% endblock %}
 {% block content %}
+    <!-- Jquery Datapicker-->
+
     {% now "n" as current_month %}
     {% now "Y" as current_year %}
 
