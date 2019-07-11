@@ -95,7 +95,7 @@ class CalendarForUser(Calendar):
         holiday = workday.filter(date_day__day=day,employee=self.user, date_free=True)
         d = ''
         for worker in employee_that_day:
-            d += f'<a> {worker.employee}:{worker.time_start}-{worker.time_end}<br></a>'
+            d += f"<a> {worker.employee}:{worker.time_start.strftime('%H:%M')}-{worker.time_end.strftime('%H:%M')}<br></a>"
         for worker in holiday:
             d += f'<a class="holiday"> {worker.employee}:holiday <br></a>'
 

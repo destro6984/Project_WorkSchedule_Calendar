@@ -12,10 +12,7 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 
 import os
 
-try:
-    from WorkShedule.local_settings import *
-except ImportError:
-    pass
+from WorkShedule.local_settings import *
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 
@@ -129,9 +126,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "static")
-]
+STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 LOGIN_REDIRECT_URL = 'login'

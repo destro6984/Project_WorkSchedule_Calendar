@@ -1,6 +1,5 @@
 import datetime
 
-
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
@@ -18,28 +17,6 @@ from WorkShedule.utils import *
 from .models import *
 
 
-def EmailWarrning():
-    # test/rubish
-    email = EmailMessage('title', 'body', to=['a.m.@gmail.com'])
-    email.send()
-    return
-
-
-class Homepage(View):
-    # test/rubish
-    def get(self, request):
-        return render(request, 'WorkShedule/base.html')
-
-
-class TestView(View):
-    # test/rubish
-    def get(self, request, day=datetime.now()):
-        cal = CalendarForUser(day.year, day.month, user=request.user)
-
-        html_cal = cal.formatmonth(withyear=True)
-        return render(request, 'WorkShedule/home.html', context={'html_cal': html_cal})
-
-
 def is_enough_worker(month_number):
     """
     function to check is 3 or 2 worker per day
@@ -53,8 +30,10 @@ def is_enough_worker(month_number):
     current_day = date.replace(day=1, month=month_number)
     days_not_enough_worker = []
     while current_day.month == month_number:
-        if (current_day.weekday() in range(0, 5)) and (WorkDay.objects.filter(date_day=current_day, date_free=False).count()) < 3 or \
-                (current_day.weekday() in range(5, 7)) and (WorkDay.objects.filter(date_day=current_day,date_free=False).count()) < 2:
+        if (current_day.weekday() in range(0, 5)) and (
+                WorkDay.objects.filter(date_day=current_day, date_free=False).count()) < 3 or \
+                (current_day.weekday() in range(5, 7)) and (
+                WorkDay.objects.filter(date_day=current_day, date_free=False).count()) < 2:
             days_not_enough_worker.append(current_day)
         current_day = current_day + timedelta(days=1)
     return days_not_enough_worker
@@ -81,12 +60,13 @@ def not_to_many_holiday(month_number, request):
             days_too_many_holiday.append(current_day.strftime('%Y-%m-%d'))
             if request.GET.get('send'):
                 emails = [workday.employee.email for workday in qs]
-                email = EmailMessage("Your Holiday','Hey, there is too many people out during the time you've choosen, please wonder about another date",
-                                     to=emails)
+                email = EmailMessage(
+                    "Your Holiday','Hey, there is too many people out during the time you've choosen, please wonder about another date",
+                    to=emails)
                 email.send()
-                messages.success(request,"Warning Send")
-                return days_too_many_holiday, redirect('calendar', month_number= datetime.now().month,
-                                                                 year= datetime.now().year)
+                messages.success(request, "Warning Send")
+                return days_too_many_holiday, redirect('calendar', month_number=datetime.now().month,
+                                                       year=datetime.now().year)
         current_day = current_day + timedelta(days=1)
     return days_too_many_holiday
 
@@ -116,7 +96,6 @@ class CalendarView(View):
         call = mycall.formatmonth(withyear=True)
         not_enough_worker_list = is_enough_worker(int(month_number))
         not_to_many_holiday_list = not_to_many_holiday(int(month_number), request)
-
 
         if request.user.is_authenticated:
             worker = User.objects.get(id=request.user.id)
@@ -160,8 +139,9 @@ class AddDefault(View):
         only_workdays = request.POST.get('workdays', False)
         all_days = request.POST.get('all_days', False)
         start_time_valid = request.POST.get('start_time', False)
-        if start_time_valid == False:
-            messages.warning(request, "Choose Start Time")
+        type_of_days=any(key in ['workdays','sun','sat','all_days'] for key in request.POST.keys())
+        if start_time_valid ==False or type_of_days == False:
+            messages.warning(request, "Choose Start Time and type of days")
             return redirect('personal_schedule', month_number=month_number, year=year)
         while current_day.month == month_number:
             time_start = date.replace(hour=int(request.POST['start_time']), minute=0, second=0, microsecond=0)
@@ -354,7 +334,7 @@ class DeleteDateDay(View):
             if value == "on":
                 day_to_delete = WorkDay.objects.filter(pk=key)
                 day_to_delete.delete()
-        messages.warning(request,"Deleted")
+        messages.warning(request, "Deleted")
         return redirect('personal_schedule', month_number=month_number, year=year)
 
 
@@ -366,7 +346,7 @@ class LoginUser(View):
     def get(self, request):
         form = LoginUserForm()
         context = {'form': form, 'submit': "Log in"}
-        return render(request, 'WorkShedule/form.html', context)
+        return render(request, 'WorkShedule/login.html', context)
 
     def post(self, request):
         form = LoginUserForm(request.POST)
@@ -381,10 +361,10 @@ class LoginUser(View):
             else:
                 message = "<h3 class='text-center'>Wrong user or password</h3>"
                 context = {'form': form, 'submit': "Log in", 'message': message}
-                return render(request, 'WorkShedule/form.html', context)
+                return render(request, 'WorkShedule/login.html', context)
         else:
             context = {'form': form, 'submit': "Log in"}
-            return render(request, 'WorkShedule/form.html', context)
+            return render(request, 'WorkShedule/login.html', context)
 
 
 class Logout(View):
@@ -396,7 +376,6 @@ class Logout(View):
         logout(request)
         messages.info(request, "Logged Out")
         return redirect('start')
-
 
 
 class RegisterUser(View):
@@ -418,8 +397,6 @@ class RegisterUser(View):
         else:
             form = UserRegisterForm(request.POST)
         return render(request, 'WorkShedule/register.html', context={'form': form})
-
-
 
 
 class AddUser(View):
@@ -448,6 +425,29 @@ class AddUser(View):
             messages.warning(request, "Error")
             context = {'form': form, "submit": "Add"}
             return render(request, 'WorkShedule/form.html', context)
+
+
+def EmailWarrning():
+    # test/rubish
+    email = EmailMessage('title', 'body', to=['a.m.@gmail.com'])
+    email.send()
+    return
+
+
+class Homepage(View):
+    # test/rubish
+    def get(self, request):
+        return render(request, 'WorkShedule/base.html')
+
+
+class TestView(View):
+    # test/rubish
+    def get(self, request, day=datetime.now()):
+        cal = CalendarForUser(day.year, day.month, user=request.user)
+
+        html_cal = cal.formatmonth(withyear=True)
+        return render(request, 'WorkShedule/home.html', context={'html_cal': html_cal})
+
 # test/rubish
 # def get_context(self,request,month_number):
 #     day = datetime.now()

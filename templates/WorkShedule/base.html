@@ -56,32 +56,34 @@
 {% endif %}
 
 <!--  Jumbo STARTER -->
-{% block jumbo %}
-    {% now "n" as current_month %}
-    {% now 'Y' as current_year %}
-    <div class="container">
-        <div class="jumbotron my-2">
-            <h1 class="display-4 text-center">Welcome to your ScheduleWork</h1>
-            <p class="lead text-center">This tool will help you to organize you time work</p>
-            <hr class="my-4">
-            <div class="container">
-                <div class=" text-center">
-                    <a class="btn btn-primary btn-lg"
-                       href="{% url 'calendar' month_number=current_month year=current_year %}" role="button">Go to
-                        current
-                        month</a>
-                </div>
-            </div>
-        </div>
-    </div>
-{% endblock %}
 
-{% block description %}
-
-{% endblock %}
 
 
 {% block content %}
+    {% block jumbo %}
+        {% now "n" as current_month %}
+        {% now 'Y' as current_year %}
+        <div class="container">
+            <div class="jumbotron my-2">
+                <h1 class="display-4 text-center">Welcome to your ScheduleWork</h1>
+                <p class="lead text-center">This tool will help you to organize you time work</p>
+                <p class="lead text-center">Log In to set you schedule for every month</p>
+                <hr class="my-4">
+                <div class="container">
+                    <div class=" text-center">
+                        <a class="btn btn-primary btn-lg"
+                           href="{% url 'calendar' month_number=current_month year=current_year %}" role="button">Go to
+                            current
+                            month</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endblock %}
+
+    {% block description %}
+
+    {% endblock %}
     {% now "n" as current_month %}
     {% now 'Y' as current_year %}
 
@@ -124,9 +126,13 @@
         <h3>
             {{ time }}
         </h3>
-        {{ request.user }}
+           {% if request.user.is_authenticated %}
+            {{ request.user }}
+
+        {% endif %}
+
         {% if not request.user.is_authenticated %}
-            <a class="btn btn-outline-info mb-4" href="{% url 'login' %}"> Log in !</a>
+            <a class="btn btn-outline-info " href="{% url 'login' %}"> Log in !</a>
         {% endif %}
     </nav>
 {% endblock %}

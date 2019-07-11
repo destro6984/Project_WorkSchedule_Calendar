@@ -14,10 +14,9 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.conf.urls import url
-from django.contrib import admin
-from django.urls import path, include
+from django.contrib.auth import views
 
-from WorkShedule.views import Homepage, CalendarView, LoginUser, Logout, DeleteDateDay, calendar, TestView, AddDefault, \
+from WorkShedule.views import Homepage, CalendarView, LoginUser, Logout, DeleteDateDay, TestView, AddDefault, \
     PersonalScheduleView, AddHoliday, RegisterUser
 
 urlpatterns = [
@@ -31,6 +30,10 @@ urlpatterns = [
     url(r'^add_holiday/(?P<month_number>\d+)/(?P<year>\d{4})$', AddHoliday.as_view(), name='add_holiday'),
     url(r'^delete_day/(?P<month_number>\d+)/(?P<year>\d{4})$', DeleteDateDay.as_view(), name='delete_day'),
     url(r'^register/$', RegisterUser.as_view(), name='register'),
+    url(r'^password-reset/$', views.PasswordResetView.as_view(template_name="WorkShedule/password_reset.html"), name='password_reset'),
+    url(r'^password-reset/done/$', views.PasswordResetDoneView.as_view(template_name="WorkShedule/password_reset_done.html"), name='password_reset_done'),
+    url(r'^password-reset-confirm/(?P<uidb64>.+)/(?P<token>.+)/$', views.PasswordResetConfirmView.as_view(template_name="WorkShedule/password_reset_confirm.html"), name='password_reset_confirm'),
+    url(r'^password-reset-complete/$', views.PasswordResetCompleteView.as_view(template_name="WorkShedule/password_reset_complete.html"), name='password_reset_complete'),
 
 
 

@@ -2,12 +2,12 @@
 {% load static %}
 {% block jumbo %}
 {% endblock %}
-{% block description %}
-    {% load crispy_forms_tags %}
-    <h1 class="display-5 text-center">Calendar {{ request.user.username }}</h1>
-{% endblock %}
+
 {% block content %}
-    <!-- Jquery Datapicker-->
+    {% block description %}
+        {% load crispy_forms_tags %}
+        <h1 class="display-5 text-center">Calendar {{ request.user.username }}</h1>
+    {% endblock %}
 
     {% now "n" as current_month %}
     {% now "Y" as current_year %}
@@ -18,13 +18,17 @@
         <div class="container">
             <div class="row mb-1">
                 <div class="col-4 text-left">
-                    <a class="btn btn-info " href="{% url 'personal_schedule' month_number=prev_month year=previous_year%}"> Previous </a>
+                    <a class="btn btn-info "
+                       href="{% url 'personal_schedule' month_number=prev_month year=previous_year %}"> Previous </a>
                 </div>
                 <div class="col-4 text-center">
-                    <a class="btn btn-info " href="{% url 'personal_schedule' month_number=current_month year=current_year%}"> Current Month </a>
+                    <a class="btn btn-info "
+                       href="{% url 'personal_schedule' month_number=current_month year=current_year %}"> Current
+                        Month </a>
                 </div>
                 <div class="col-4 text-right">
-                    <a class="btn btn-info " href="{% url 'personal_schedule' month_number=next_month year=next_year%}"> Next </a>
+                    <a class="btn btn-info "
+                       href="{% url 'personal_schedule' month_number=next_month year=next_year %}"> Next </a>
                 </div>
 
 
@@ -74,7 +78,8 @@
 
                 <div class="col-3">
                     <h3 class="text-center">Add Holidays</h3>
-                    <form class="col-8" method="POST" action="{% url 'add_holiday' month_number=month_number year=year%}">
+                    <form class="col-8" method="POST"
+                          action="{% url 'add_holiday' month_number=month_number year=year %}">
                         {% csrf_token %}
                         {{ form_holiday|crispy }}
                         <input class="btn btn-info right" type="submit" value=Save>
@@ -86,7 +91,7 @@
                 <div>
                     <h5 class="text-center">Delete</h5> <!-- DELETE-->
                     <table border="1px">
-                        <form method="GET" action="{% url 'delete_day' month_number=month_number year=year%}">
+                        <form method="GET" action="{% url 'delete_day' month_number=month_number year=year %}">
                             {% csrf_token %}
                             <th colspan="4" class="text-center">{{ worker }}</th>
                             {% for emploee in work_day %}
@@ -122,8 +127,8 @@
 
 
 
-  </ul>
-</div>
+    </ul>
+    </div>
 
 {% endblock %}
 {% block footer %}
