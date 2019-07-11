@@ -70,6 +70,8 @@ def not_to_many_holiday(month_number, request):
         current_day = current_day + timedelta(days=1)
     return days_too_many_holiday
 
+def about(request):
+    return render(request,'WorkShedule/about.html')
 
 class CalendarView(View):
     """

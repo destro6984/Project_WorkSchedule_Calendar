@@ -13,7 +13,7 @@
                 {% now 'Y' as current_year%}
                 <a class="nav-item nav-link" href="{% url 'calendar' month_number=current_month year=current_year %}">Current month</a>
                 <a class="nav-item nav-link" href="{% url 'personal_schedule' month_number=current_month year=current_year  %}">Personal Schedule</a>
-                <a class="nav-item nav-link text-muted" href="">About</a>
+                <a class="nav-item nav-link" href="{% url 'about' %}">About</a>
             </div>
             <!-- Navbar Right Side -->
             <div class="navbar-nav">
