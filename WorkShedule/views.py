@@ -71,6 +71,11 @@ def not_to_many_holiday(month_number, request):
     return days_too_many_holiday
 
 def about(request):
+    """
+    About info
+    :param request:
+    :return: about Info
+    """
     return render(request,'WorkShedule/about.html')
 
 class CalendarView(View):
